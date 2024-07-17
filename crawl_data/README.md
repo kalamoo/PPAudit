@@ -1,4 +1,25 @@
-# Configuration for Web Scraper
+# Get VR Apps' Meta-info
+We use [WebScraper](https://webscraper.io/) to crawl meta-info (e.g., app name, genres, description, etc.) of VR apps from 10 different VR platforms. Import the configurations to WebScraper browser extentions and export the crawling results. 
+
+![VR Platforms](https://github.com/Y-Zhan/PPAudit/blob/main/crawl_data/fig_vr_platforms.png)
+
+
+# Get Privacy Policy Links
+Among the results of apps' meta-info, if the platforms do not provide direct links to VR apps' privacy policies, we follow the homepage link (if available) of the app and extract clickable link objects whose text contains *privacy* as their privacy policy links.
+
+# Get VR App's Packages
+There are two sources: Sidequest and Meta Quest. 
+
++ Sidequest Apps
+    
+    We first fetch the apps' package URLs by [GetSidequestURL](https://github.com/mikeage/get_sidequest_urls) and then download these APK packages. [Sidequest Free Apps](https://api.sidequestvr.com/v2/apps?limit=4000&is_app_lab=false&has_oculus_url=false&license=free) & [App Lab Free Apps](https://api.sidequestvr.com/v2/apps?limit=4000&has_oculus_url=true&license=free).
+
++  Meta Quest Apps
+
+    We automate the downloading process by simultaneously controlling a rooted Android mobile phone (with our Meta Quest app installed and logging into our account) and the paired Quest device with a script running on PC.
+
+
+# Configurations for Web Scraper
 
 ## Viveport
 ```json
@@ -51,7 +72,7 @@
 {"_id":"sidequest","startUrl":["https://sidequestvr.com/apps/none/0/rating"],"selectors":[{"id":"each item","parentSelectors":["_root"],"type":"SelectorElementScroll","selector":"div.col.relative","multiple":true,"delay":2000},{"id":"jump","parentSelectors":["each item"],"type":"SelectorLink","selector":".z-depth-5 > a","multiple":false,"delay":0},{"id":"name","parentSelectors":["jump"],"type":"SelectorText","selector":"div:nth-of-type(3) div.large-font","multiple":false,"delay":0,"regex":""},{"id":"description","parentSelectors":["jump"],"type":"SelectorText","selector":".no-margin-bottom.right-section div.col","multiple":false,"delay":0,"regex":""},{"id":"added date","parentSelectors":["jump"],"type":"SelectorText","selector":".hide-on-small-only div.col.center-align:nth-of-type(2) div:nth-of-type(1)","multiple":false,"delay":0,"regex":""},{"id":"update date","parentSelectors":["jump"],"type":"SelectorText","selector":".hide-on-small-only div:nth-of-type(4) div:nth-of-type(3) div:nth-of-type(1)","multiple":false,"delay":0,"regex":""},{"id":"version","parentSelectors":["jump"],"type":"SelectorText","selector":".hide-on-small-only .col.center-align div.truncate","multiple":false,"delay":0,"regex":""},{"id":"number of ratings","parentSelectors":["jump"],"type":"SelectorText","selector":".hide-on-small-only .center-align .offset-s3 div.grey-text","multiple":false,"delay":0,"regex":""},{"id":"tages","parentSelectors":["jump"],"type":"SelectorGroup","selector":".hide-on-small-only .row.ng-star-inserted .margin-bottom a.sq-button--slim","delay":0,"extractAttribute":""},{"id":"number of downloads","parentSelectors":["jump"],"type":"SelectorText","selector":".hide-on-small-only div.download-counter-box","multiple":false,"delay":0,"regex":""},{"id":"open website","parentSelectors":["jump"],"type":"SelectorLink","selector":".hide-on-small-only div:nth-of-type(8) sq-button:nth-of-type(1) a","multiple":false,"delay":0}]}
 ```
 
-## Microsoft Mixed Reality (MR)
+## MicrosoftMR
 ```json
 {"_id":"windows1","startUrl":["https://www.microsoft.com/en-us/store/collections/mr-all-immersivecontent?icid=ARVRCat_QL4_WMRApps&skipitems=[0-90:90]"],"selectors":[{"id":"each item","parentSelectors":["_root"],"type":"SelectorElement","selector":"div.card","multiple":true},{"id":"jump","parentSelectors":["each item"],"type":"SelectorLink","selector":"a","multiple":false},{"id":"name","parentSelectors":["jump"],"type":"SelectorText","selector":"h1","multiple":false,"regex":""},{"id":"publisher","parentSelectors":["jump"],"type":"SelectorText","selector":".c017 > a","multiple":false,"regex":""},{"id":"privacy policy link","parentSelectors":["jump"],"type":"SelectorLink","selector":"a#privacyLink_desktop","multiple":false},{"id":"price","parentSelectors":["jump"],"type":"SelectorText","selector":".c0122 div span","multiple":false,"regex":""},{"id":"number of  ratings","parentSelectors":["jump"],"type":"SelectorText","selector":".c0119 div[aria-label]","multiple":false,"regex":""},{"id":"number of reviews","parentSelectors":["jump"],"type":"SelectorText","selector":"h2:nth-of-type(2)","multiple":false,"regex":""},{"id":"description","parentSelectors":["jump"],"type":"SelectorText","selector":"pre","multiple":false,"regex":""},{"id":"genre","parentSelectors":["jump"],"type":"SelectorText","selector":"a#categoryText","multiple":false,"regex":""},{"id":"related app provided by microsoft","parentSelectors":["jump"],"type":"SelectorGroup","selector":"div.product-card","extractAttribute":""}]}
 {"_id":"windows2","startUrl":["https://www.microsoft.com/en-us/store/collections/mr-all-immersivecontent?icid=ARVRCat_QL4_WMRApps&skipitems=[0-90:90]"],"selectors":[{"id":"each item","parentSelectors":["_root"],"type":"SelectorElement","selector":"div.card","multiple":true},{"id":"jump","parentSelectors":["each item"],"type":"SelectorLink","selector":"a","multiple":false},{"id":"name","parentSelectors":["jump"],"type":"SelectorText","selector":"h1#DynamicHeading_productTitle","multiple":false,"regex":""},{"id":"description","parentSelectors":["jump"],"type":"SelectorText","selector":"p[itemprop='description']","multiple":false,"regex":""},{"id":"release date","parentSelectors":["jump"],"type":"SelectorText","selector":"#releaseDate-toggle-target span","multiple":false,"regex":""},{"id":"genre","parentSelectors":["jump"],"type":"SelectorText","selector":"[itemprop='category'] a","multiple":false,"regex":""},{"id":"people also like","parentSelectors":["jump"],"type":"SelectorGroup","selector":".m-channel-placement li","extractAttribute":""},{"id":"info","parentSelectors":["jump"],"type":"SelectorGroup","selector":"div[data-grid=col-6] .c-content-toggle","extractAttribute":""},{"id":"privacy policy","parentSelectors":["jump"],"type":"SelectorLink","selector":"a[href*=\"privacy\"]","multiple":false},{"id":"terms","parentSelectors":["jump"],"type":"SelectorLink","selector":"a[href*=\"terms\"]","multiple":false},{"id":"pulisher info container","parentSelectors":["jump"],"type":"SelectorElement","selector":"div:nth-of-type(2) div div.c-content-toggle:nth-of-type(3)","multiple":false},{"id":"publisher website","parentSelectors":["pulisher info container"],"type":"SelectorLink","selector":"a","multiple":false}]}

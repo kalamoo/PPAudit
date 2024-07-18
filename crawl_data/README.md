@@ -5,7 +5,12 @@ We use [WebScraper](https://webscraper.io/) to crawl meta-info (e.g., app name, 
 
 
 # Get Privacy Policy Links
-Among the results of apps' meta-info, if the platforms do not provide direct links to VR apps' privacy policies, we follow the homepage link (if available) of the app and extract clickable link objects whose text contains *privacy* as their privacy policy links.
+Among the results of apps' meta-info, if the platforms do not provide direct links to VR apps' privacy policies, we follow the homepage link (if available) of the app and extract clickable link objects whose text contains *privacy* as their privacy policy links. [Download HTML Files of Privacy Policies' Pages.](https://drive.google.com/file/d/1WQXANaUzRo1ciRL8cr-4UTXj3OMz6bmo/view?usp=sharing)
+
+
+# Convert Privacy Policy HTML to Text
+Utilize [OVRSeen-HtmlToPlaintext](https://github.com/UCI-Networking-Group/OVRseen/blob/main/privacy_policy/network-to-policy_consistency/Preprocessor.py) to extract text from the privacy policy html files.  [Download Text Results of Privacy Policies' Pages.](https://drive.google.com/file/d/1wX5goUvagc3ffhkvgFG2h47x2nPWy6ly/view?usp=sharing)
+
 
 # Get VR App's Packages
 There are two sources: Sidequest and Meta Quest. 
@@ -16,7 +21,7 @@ There are two sources: Sidequest and Meta Quest.
 
 +  Meta Quest Apps
 
-    We automate the downloading process by simultaneously controlling a rooted Android mobile phone (with our Meta Quest app installed and logging into our account) and the paired Quest device with a script running on PC.
+    We automate the downloading process by simultaneously controlling a rooted Android mobile phone (with our Meta Quest app installed and logging into our account) and the paired Quest device with a [script](https://github.com/Y-Zhan/PPAudit/blob/main/crawl_data/install_app_on_quest.py) running on PC.
 
 
 # Configurations for Web Scraper

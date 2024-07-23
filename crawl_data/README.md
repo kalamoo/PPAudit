@@ -1,7 +1,7 @@
 # Get VR Apps' Meta-info
 We use [WebScraper](https://webscraper.io/) to crawl meta-info (e.g., app name, genres, description, etc.) of VR apps from 10 different VR platforms. Import the configurations to WebScraper browser extentions and export the crawling results. 
 
-![VR Platforms](https://github.com/Y-Zhan/PPAudit/blob/main/crawl_data/fig_vr_platforms.png)
+![VR Platforms](https://github.com/kalamoo/PPAudit/blob/main/doc_figs/fig_vr_platforms.png)
 
 
 # Get Privacy Policy Links

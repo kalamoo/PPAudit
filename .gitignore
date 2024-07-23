@@ -1,5 +1,3 @@
-*.html
-*.txt
-!quest_app_path.txt
-*.zip
-*.log
+data/
+components/PP_components_clf/
+test.ipynb

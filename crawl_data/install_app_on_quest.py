@@ -39,3 +39,6 @@ sleep 10
 
 while True:
     os.system(cmd)
+
+# adb shell pm list packages -f
+# adb pull /path/in/quest/apk /path/in/pc/apk

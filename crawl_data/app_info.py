@@ -3,7 +3,6 @@ import re, string
 from pathlib import Path
 import hashlib
 
-# NOTE: I really shoudn't export the raw meta-info in xlsx format, which complicates the merge process a little bit
 
 name_dict = {
         "psvr":5,
@@ -173,7 +172,8 @@ description_dict = {
 
 
 class MetaInfoReader:
-
+# NOTE: I really shoudn't export the raw meta-info in xlsx format,
+# which complicates the merge process a little bit
     def __init__(self, source, file_path):
         self.source = source
         self.file_path = file_path

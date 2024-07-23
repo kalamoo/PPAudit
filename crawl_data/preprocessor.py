@@ -782,5 +782,3 @@ if __name__ == '__main__':
     else:
         aparser.print_help(sys.stderr)
         sys.exit(1)
-
-# D:\PPAudit_Archive\A_Crawl_and_DB\A_Crawl_and_DB\data\pp_htmls\00c7b9a0e8965dbf90e8c7a9ea2e8d0f8050c89b212dcc096803fa611c16639f.html D:\PPAudit\data\pp_txts

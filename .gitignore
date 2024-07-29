@@ -1,3 +1,6 @@
-data/
-components/PP_components_clf/
+output/
+other_data/
+pp_components/pp_components_clf/
+cus_extract/cus_clf/
+cus_extract/dataobj_ner/
 test.ipynb

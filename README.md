@@ -6,6 +6,6 @@ This is the repository for VPVet, a system that automatically vet privacy policy
 
 # Privacy Policy Report
 
-Template privacy policy report for VR APPs can be found on https://vpvetting.github.io
+Template privacy policy reports for VR APPs can be found on https://vpvetting.github.io
 
 

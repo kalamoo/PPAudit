@@ -5,12 +5,15 @@ import pandas as pd
 import random
 random.seed(2023)
 from datasets import Dataset, DatasetDict
+# NOTE: package may be incompatible
+# datasets 1.11.0 requires huggingface-hub<0.1.0, but you have huggingface-hub 0.4.0 which is incompatible.
 from transformers import AutoTokenizer, DataCollatorForTokenClassification, Trainer, AutoModelForTokenClassification, TrainingArguments
 from seqeval.metrics import accuracy_score, precision_score, recall_score, f1_score
+# pip install seqval
 from synthetic_cus import synthetic_cus
 
 # pip install 
-#   seqeval
+#  + seqeval
 label_names = ['O', 'B', 'I']
 
 model_checkpoint = "mukund/privbert"
@@ -19,6 +22,9 @@ tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, add_prefix_space=Tru
 data_collator = DataCollatorForTokenClassification(tokenizer=tokenizer)
 
 cus_words, cus_labels, ncus_words = synthetic_cus()
+neg2pos_ratio = 2  # neg / pos = 2 : 1 
+ncus_words = ncus_words[:int(neg2pos_ratio * len(cus_words))]
+
 
 train_ratio = 0.7
 validate_ratio = 0.2
@@ -126,13 +132,14 @@ model = AutoModelForTokenClassification.from_pretrained(
 )
 
 args = TrainingArguments(
-    "bert-finetuned-ner",
-    evaluation_strategy="epoch",
-    save_strategy="no",
+    "dataobj_ner_checkpoint",
+    evaluation_strategy="steps",
     learning_rate=2e-5,
-    num_train_epochs=3,
+    num_train_epochs=20,
     weight_decay=0.01,
     metric_for_best_model="f1",
+    save_total_limit=3,
+    load_best_model_at_end=True
 )
 
 trainer = Trainer(

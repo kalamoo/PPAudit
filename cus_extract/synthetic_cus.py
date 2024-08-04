@@ -52,22 +52,12 @@ def extract_cus_templates():
     return cus_words, cus_labels, ncus_words
 
 
-def classic_and_vr_dataobj_phrases():
-    classic_phrases = []   # #=1615
+def vr_dataobj_phrases():
     ovr_phrases = []  # #=267
     
-    # classic phrases from policheck
+     # vr phrases from ovrseen
     dataobj_onto_poli = pickle.load(open(other_data_dir/'data_ontology_policheck.pickle', 'rb'))
     nodes_poli = dataobj_onto_poli._node.keys()
-    tree = ET.parse(other_data_dir/'synonyms.xml')
-    root = tree.getroot()
-    for child in root:
-        if child.attrib['term'] in nodes_poli:
-            classic_phrases.append(child.attrib['term'])
-            for kid in child:
-                classic_phrases.append(kid.attrib['term'])
-
-    # vr phrases from ovrseen
     dataobj_onto_ovr = nx.read_gml(other_data_dir/'data_ontology.gml')
     nodes_ovr = dataobj_onto_ovr._node.keys()
     added_ovr_nodes = [node for node in nodes_ovr if node not in nodes_poli]
@@ -78,7 +68,7 @@ def classic_and_vr_dataobj_phrases():
                 ovr_phrases.append(added_node)
                 ovr_phrases.extend(dataobj_synon[added_node])
 
-    return classic_phrases, ovr_phrases
+    return ovr_phrases
 
 
 def insert_phrase_to_template(phrase, words_template, labels_template):    
@@ -112,32 +102,28 @@ def insert_phrase_to_template(phrase, words_template, labels_template):
 
 def synthetic_cus():
     # ratio of synthetic dataset
-    # CUS positive [1 classic phrases (1615) ~ 1 vr phrases (267*6)] ~ CUS negative [8 ncus (14865)]
+    # CUS positive [1 vr phrases (267*3) + the rest of classic templates] (1383) ~ CUS negative [ncus (14865)]
 
     cus_words_template, cus_labels_template, ncus_words = extract_cus_templates()
     template_shuffle = list(range(len(cus_words_template)))
     random.shuffle(template_shuffle)
 
-    classic_phrases, vr_phrases = classic_and_vr_dataobj_phrases()
+    vr_phrases = vr_dataobj_phrases()
     
     cus_words = []
     cus_labels = []
-    # insert classic phrase (1615 phrase into 1383 template)
-    for i in range(len(classic_phrases)):
-        template_idx = template_shuffle[i % len(template_shuffle)]
-        words, labels = insert_phrase_to_template(classic_phrases[i], cus_words_template[template_idx], cus_labels_template[template_idx])
-        cus_words.append(words)
-        cus_labels.append(labels)
     
     # insert vr phrases (267 phrases into 1383 templates)
-    dup = 1 + (len(template_shuffle) // len(vr_phrases))
+    dup = 1 + int(len(template_shuffle) / 2 / len(vr_phrases))
     for i in range(len(vr_phrases)):
         for j in range(dup):
-            template_idx = template_shuffle[(dup*i+j) % len(template_shuffle)]
+            template_idx = template_shuffle[dup*i+j]
             words, labels = insert_phrase_to_template(vr_phrases[i], cus_words_template[template_idx], cus_labels_template[template_idx])
             cus_words.append(words)
             cus_labels.append(labels)
-
+    for template_idx in template_shuffle[dup*len(vr_phrases): ]:
+        cus_words.append(cus_words_template[template_idx])
+        cus_labels.append(cus_labels_template[template_idx])
     
     # shuffle the outputs
     cus_words_r = []

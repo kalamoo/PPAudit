@@ -12,14 +12,12 @@ import numpy as np
 # pip install 
 # + transformers[torch]
 # + pandas
-# + evaluate
 # + scikit-learn
 # + chardet   # to solve possible issue: ImportError: cannot import name 'get_full_repo_name' from 'huggingface_hub
 
 import pandas as pd
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, TrainingArguments, Trainer, EvalPrediction
-import evaluate
 from datasets import Dataset, DatasetDict
 from sklearn.metrics import classification_report
 

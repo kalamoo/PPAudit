@@ -26,7 +26,7 @@ class DataObjNERHelper:
         # output: 
         #   list of tuple: (start_char_index, end_char_index, dataobj)
         results = self.classifier(text)
-        print(results)
+        # print(results)
         pos_results = []
         if len(results) < 1:
             return pos_results
@@ -45,7 +45,7 @@ class DataObjNERHelper:
                 token_pt = work_pt + 1
             else:
                 token_pt += 1
-        print(pos_results)
+        # print(pos_results)
         return pos_results
 
 
@@ -1096,22 +1096,22 @@ output = Path(r'D:\PPAudit\output')
 NlpFinalModel_Policheck = other_data / 'NlpFinalModel_Policheck'
 pp_components = output / 'pp_components'
 cus_phrase_tuples = output / 'cus_phrase_tuples'
+cus_phrase_tuples.mkdir(parents=False, exist_ok=True)
 AnalyticsData = output / 'analytics'
+AnalyticsData.mkdir(parents=False, exist_ok=True)
 dataobj_ner_path = Path(r'D:\PPAudit\cus_extract\dataobj_ner')
 
 def cus_phrse_tuple_extraction():
     nlp = spacy.load(NlpFinalModel_Policheck)
     analytics = Analytics()
-    mix_extractor = MixExtractor(nlp, analytics)
-    
-    i = 0
+    mix_extractor = MixExtractor(nlp, analytics, dataobj_ner_path)
 
     for pp_component_file in pp_components.glob('*.json'):
-        i += 1
+
         pp_url_hash = pp_component_file.stem
 
-        if AnalyticsData / ('{}.pickle'.format(pp_url_hash)).is_file() and \
-        cus_phrase_tuples / ('{}.json'.format(pp_url_hash)).is_file():
+        if (AnalyticsData / '{}.pickle'.format(pp_url_hash)).is_file() and \
+        (cus_phrase_tuples / '{}.json'.format(pp_url_hash)).is_file():
             print('[ ] {}'.format(pp_url_hash))
             continue
         
@@ -1140,15 +1140,12 @@ def cus_phrse_tuple_extraction():
         
         # save cus phrase tuple results
         with open(cus_phrase_tuples/'{}.json'.format(pp_url_hash), 'w') as wf:
-            wf.write(json.dumps(cus_phrases_result))
+            wf.write(json.dumps(cus_phrases_result, indent=4))
 
         # save analytics data
         analytics.endDoc()
         pickle.dump(analytics.dataStore[pp_url_hash], 
                     open(AnalyticsData/'{}.pickle'.format(pp_url_hash), 'wb'))
-        
-        if i == 5:
-            break
 
 
 if __name__ == '__main__':

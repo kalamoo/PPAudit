@@ -12,8 +12,6 @@ from seqeval.metrics import accuracy_score, precision_score, recall_score, f1_sc
 # pip install seqval
 from synthetic_cus import synthetic_cus
 
-# pip install 
-#  + seqeval
 label_names = ['O', 'B', 'I']
 
 model_checkpoint = "mukund/privbert"
@@ -24,7 +22,6 @@ data_collator = DataCollatorForTokenClassification(tokenizer=tokenizer)
 cus_words, cus_labels, ncus_words = synthetic_cus()
 neg2pos_ratio = 2  # neg / pos = 2 : 1 
 ncus_words = ncus_words[:int(neg2pos_ratio * len(cus_words))]
-
 
 train_ratio = 0.7
 validate_ratio = 0.2

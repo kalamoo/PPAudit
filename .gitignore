@@ -6,3 +6,5 @@ cus_extract/dataobj_ner*
 !cus_extract/dataobj_ner_train.py
 *.ipynb
 __pycache__
+minimization/description_clf
+minimization/*.json

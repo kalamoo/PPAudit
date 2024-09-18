@@ -429,4 +429,3 @@ if __name__ == '__main__':
             pp_cus_phrases_file = Path(r'D:\PPAudit\output\cus_phrase_tuples') / '{}.txt.json'.format(this_app_info['pp_html_file'])
             if pp_cus_phrases_file.is_file():
                 formalize_cus_tuple_for_app(app_link_hash, pp_cus_phrases_file)
-                break

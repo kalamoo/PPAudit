@@ -2,7 +2,7 @@ import json
 import time
 from androguard.misc import AnalyzeAPK
 from androguard.core.androconf import load_api_specific_resource_module
-#  ip install androguard[magic,GUI]==3.3.5
+#  pip install androguard[magic,GUI]==3.3.5
 from pathlib import Path
 
 

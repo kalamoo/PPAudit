@@ -1,5 +1,5 @@
 output/
-other_data/
+other_data/NlpFinalModel_Policheck/
 pp_components/pp_components_clf/
 cus_extract/cus_clf*
 cus_extract/dataobj_ner*
